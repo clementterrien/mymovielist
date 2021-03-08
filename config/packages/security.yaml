@@ -1,8 +1,9 @@
 security:
+    enable_authenticator_manager: true
     encoders:
         App\Entity\User:
             algorithm: auto
-
+    
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -18,6 +19,13 @@ security:
             anonymous: true
             lazy: true
             provider: app_user_provider
+            
+            # by default, the feature allows 5 login attempts per minute
+            login_throttling: null
+
+            # configure the maximum login attempts (per minute)
+            login_throttling:
+                max_attempts: 3
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
