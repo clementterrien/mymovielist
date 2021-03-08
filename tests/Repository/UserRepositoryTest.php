@@ -11,7 +11,9 @@ class UserRepositoryTest extends KernelTestCase {
     
     public function testCount(){
         self::bootKernel();
-        $this->loadFixtures([UserFixtures::class]);
+        $this->loadFixtureFiles([
+            __DIR__ . '/UserRepositoryTestFixtures.yaml'
+        ]);
         $users = self::$container->get(UserRepository::class)->count([]);
         $this->assertEquals(10, $users);
     }
