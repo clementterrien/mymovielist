@@ -7,8 +7,10 @@ use Symfony\Component\HttpClient\HttpClient;
 
 
 class TMDB_API {
-    
+
+    /** @required */
     private $api_key;
+    /** @required */
     private $path;
     
     public function __construct(string $api_key, string $path)
@@ -42,19 +44,23 @@ class TMDB_API {
         return $this->path;
     }
 
-    public function getTrendings(string $media_types, string $time_window) {
+    public function getTrendingsMovies(string $media_types, string $time_window): array{
         #Verify Parameters
-        if (in_array($media_types, array("movie", "tv", "person")) == false || in_array($time_window, array("day", "week")) == false)
-        {
+        $response = $this->getTrendingsResponse($media_types, $time_window);
+        $content = $response->toArray();
+
+        return $content['results'];
+    
+    }
+    public function getTrendingsResponse(string $media_types, string $time_window) {
+        #Verify Parameters
+        if (in_array($media_types, array("movie", "tv", "person")) == false || in_array($time_window, array("day", "week")) == false) {
             throw new Exception('You should not pass other parameters than the specified ones !');
         }
 
         $url = $this->path . 'trending/all/day?api_key=' . $this->api_key;
         $response = $this->client->request('GET', $url);
-        $content = $response->toArray();
-        $content = $content['results'];
 
-        return $content;
+        return $response;
     }
-
 }
