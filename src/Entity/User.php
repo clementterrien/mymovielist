@@ -42,7 +42,7 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToOne(targetEntity=MovieList::class, mappedBy="User", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Movielist", mappedBy="User")
      */
     private $movieList;
 
@@ -50,6 +50,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=WatchedMovies::class, mappedBy="User", cascade={"persist", "remove"})
      */
     private $watchedMovies;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $bonjour;
 
     public function getId(): ?int
     {
@@ -174,6 +179,18 @@ class User implements UserInterface
         }
 
         $this->watchedMovies = $watchedMovies;
+
+        return $this;
+    }
+
+    public function getBonjour(): ?string
+    {
+        return $this->bonjour;
+    }
+
+    public function setBonjour(string $bonjour): self
+    {
+        $this->bonjour = $bonjour;
 
         return $this;
     }

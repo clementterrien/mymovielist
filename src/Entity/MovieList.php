@@ -20,8 +20,7 @@ class MovieList
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="movieList", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="movielists")
      */
     private $User;
 
