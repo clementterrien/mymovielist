@@ -1,6 +1,15 @@
 {% extends 'base.html.twig' %} {% block body %}
 <div>
-  <h1>Bienvenue sur le ClemSite</h1>
+  <h1>Welcome to My movie List</h1>
+
+<div class="d-flex flex-wrap">
+
+  {% for movie in trend_movies %}
+  {% include 'partials/movie_card.html.twig' with {movie: movie} only %}
+  {% endfor %}
+  </div> 
+  
+  
   <p>
     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero, rem eligendi
     commodi ullam quas officiis porro, perspiciatis sequi voluptatem, nihil qui.
