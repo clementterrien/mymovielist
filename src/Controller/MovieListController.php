@@ -20,6 +20,8 @@ class MovieListController extends AbstractController
      */
     public function showMyLists(MovieListRepository $repo)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $user = $this->getUser();
         $user_lists = $repo->findAll();
 
@@ -33,6 +35,8 @@ class MovieListController extends AbstractController
      */
     public function createMovieList(UserRepository $user, Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $movie_list = new MovieList();
 
         $manager = $this->getDoctrine()->getManager();
@@ -53,7 +57,7 @@ class MovieListController extends AbstractController
             ]);
         }
 
-        return $this->render('list/newMovieList.html.twig', [
+        return $this->render('movie_lists/create-movie-list.html.twig', [
             'form' => $form->createView()
         ]);
     }
