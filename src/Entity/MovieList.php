@@ -30,6 +30,11 @@ class MovieList
      */
     private $movies;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -75,6 +80,18 @@ class MovieList
         if ($this->movies->removeElement($movie)) {
             $movie->removeMovieList($this);
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
