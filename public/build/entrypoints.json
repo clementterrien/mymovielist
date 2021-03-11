@@ -9,6 +9,11 @@
       "css": [
         "/build/app.css"
       ]
+    },
+    "home": {
+      "js": [
+        "/build/runtime.js"
+      ]
     }
   }
 }
