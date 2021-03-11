@@ -48,8 +48,14 @@ class TMDB_API {
         #Verify Parameters
         $response = $this->getTrendingsResponse($media_types, $time_window);
         $content = $response->toArray();
+        $content = $content['results'];
 
-        return $content['results'];
+        foreach ($content as $key => $value) {
+            $poster_path = $content[$key]['poster_path'];
+            $content[$key]['image'] = 'https://image.tmdb.org/t/p/w200/' . $poster_path;
+        }
+
+        return $content;
     
     }
     public function getTrendingsResponse(string $media_types, string $time_window) {
