@@ -2,7 +2,8 @@
 <div>
   <h1>Welcome to My movie List</h1>
 
-  <div class="d-flex">
+<div class="d-flex flex-wrap">
+
   {% for movie in trend_movies %}
   {% include 'partials/movie_card.html.twig' with {movie: movie} only %}
   {% endfor %}
