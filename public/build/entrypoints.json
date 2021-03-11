@@ -12,7 +12,8 @@
     },
     "home": {
       "js": [
-        "/build/runtime.js"
+        "/build/runtime.js",
+        "/build/home.js"
       ]
     }
   }
