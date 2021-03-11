@@ -58,7 +58,7 @@ class TMDB_API {
             throw new Exception('You should not pass other parameters than the specified ones !');
         }
 
-        $url = $this->path . 'trending/all/day?api_key=' . $this->api_key;
+        $url = $this->path . 'trending/'. $media_types . '/'. $time_window .'?api_key=' . $this->api_key;
         $response = $this->client->request('GET', $url);
 
         return $response;

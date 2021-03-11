@@ -14,10 +14,13 @@ class AppController extends AbstractController
      */
     public function index(TMDB_API $service): Response
     {
-        $results = $service->getTrendings('movie', 'week');
-        dd($results);
+        $trend_movies = $service->getTrendingsMovies('movie', 'week');
+        
+        foreach ($trend_movies as $trend) {
+            dump($trend);
+        }
         return $this->render('app/index.html.twig', [
-            'controller_name' => 'AppController'
+            'trend_movies' => $trend_movies
         ]);
     }
 }
