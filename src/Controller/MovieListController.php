@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Entity\Movielist;
-use App\Form\AddToListType;
-use App\Form\CreateListType;
+use App\Form\CreateMovieListType;
 use App\Repository\UserRepository;
-use App\Repository\MovielistRepository;
+use App\Repository\MovieListRepository;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,69 +15,46 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MovieListController extends AbstractController
 {
+    /**
+     * @Route("/mylists", name="showmylists")
+     */
+    public function showMyLists(MovieListRepository $repo)
+    {
+        $user = $this->getUser();
+        $user_lists = $repo->findAll();
+
+        return $this->render('movie_lists/show-lists.html.twig', [
+            'lists' => $user_lists
+        ]);
+    }
 
     /**
      * @Route("/newMovieList", name="newMovieList")
      */
     public function createMovieList(UserRepository $user, Request $request)
     {
-        $list = new Movielist();
+        $movie_list = new MovieList();
 
         $manager = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(CreateListType::class, $list);
-        dump($form);
+        $form = $this->createForm(CreateMovieListType::class, $movie_list);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
-            $list->setUser($user);
+            $movie_list->setUser($user);
 
-            $user_lists = 'hello';
-
-            $manager->persist($list);
+            $manager->persist($movie_list);
             $manager->flush();
 
-            return $this->render('list/newMovieList.html.twig', [
+            return $this->render('movie_lists/create-movie-list.html.twig', [
                 'form' => $form->createView()
             ]);
         }
 
         return $this->render('list/newMovieList.html.twig', [
             'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/newMovieList/{movie_id}", name="addtomylist")
-     */
-    public function addToMyList(MovielistRepository $repo, $movie_id)
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $api_key = $this->getParameter('TMDB_API_KEY');
-        $manager = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-
-        $movie_list = $repo->findOneById(1);
-        $movie = $movie_list->setMovieInformation($repo, $movie_id, $api_key);
-
-        $manager->persist($movie);
-        $manager->flush();
-
-        return $this->redirectToRoute('movies');
-    }
-
-    /**
-     * @Route("/mylists", name="showmylists")
-     */
-    public function showMyLists(MovielistRepository $repo)
-    {
-        $user = $this->getUser();
-        $user_lists = $repo->findAll();
-
-        return $this->render('list/mylists.html.twig', [
-            'lists' => $user_lists
         ]);
     }
 

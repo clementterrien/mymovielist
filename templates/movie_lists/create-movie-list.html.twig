@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% if form is defined %}
+		<h1>Create my own MovieList</h1>
+		<div class="createlisttype">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<button type="submit" class="btn btn-success">Create List</button>
+			{{ form_end(form) }}
+		</div>
+	{% endif %}
+{% endblock %}
