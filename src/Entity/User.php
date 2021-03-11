@@ -41,6 +41,16 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\OneToOne(targetEntity=MovieList::class, mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $movieList;
+
+    /**
+     * @ORM\OneToOne(targetEntity=WatchedMovies::class, mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $watchedMovies;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -130,6 +140,40 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getMovieList(): ?MovieList
+    {
+        return $this->movieList;
+    }
+
+    public function setMovieList(MovieList $movieList): self
+    {
+        // set the owning side of the relation if necessary
+        if ($movieList->getUser() !== $this) {
+            $movieList->setUser($this);
+        }
+
+        $this->movieList = $movieList;
+
+        return $this;
+    }
+
+    public function getWatchedMovies(): ?WatchedMovies
+    {
+        return $this->watchedMovies;
+    }
+
+    public function setWatchedMovies(WatchedMovies $watchedMovies): self
+    {
+        // set the owning side of the relation if necessary
+        if ($watchedMovies->getUser() !== $this) {
+            $watchedMovies->setUser($this);
+        }
+
+        $this->watchedMovies = $watchedMovies;
 
         return $this;
     }
