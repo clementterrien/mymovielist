@@ -2,17 +2,13 @@
 <div>
   <h1>Welcome to My movie List</h1>
 
-
+  <div class="d-flex">
   {% for movie in trend_movies %}
-{% if movie.title is defined %}
-{{movie.title}}</br>
-	{% elseif movie.name is defined %}
-{{movie.name}}</br>
-{% endif %}
-
-  
-  
+  {% include 'partials/movie_card.html.twig' with {movie: movie} only %}
   {% endfor %}
+  </div> 
+  
+  
   <p>
     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero, rem eligendi
     commodi ullam quas officiis porro, perspiciatis sequi voluptatem, nihil qui.
