@@ -46,6 +46,11 @@ class User implements UserInterface
      */
     private $movieList;
 
+    /**
+     * @ORM\OneToOne(targetEntity=WatchedMovies::class, mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $watchedMovies;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,6 +157,23 @@ class User implements UserInterface
         }
 
         $this->movieList = $movieList;
+
+        return $this;
+    }
+
+    public function getWatchedMovies(): ?WatchedMovies
+    {
+        return $this->watchedMovies;
+    }
+
+    public function setWatchedMovies(WatchedMovies $watchedMovies): self
+    {
+        // set the owning side of the relation if necessary
+        if ($watchedMovies->getUser() !== $this) {
+            $watchedMovies->setUser($this);
+        }
+
+        $this->watchedMovies = $watchedMovies;
 
         return $this;
     }
