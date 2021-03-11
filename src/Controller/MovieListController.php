@@ -25,7 +25,7 @@ class MovieListController extends AbstractController
         $user = $this->getUser();
         $user_lists = $repo->findAll();
 
-        return $this->render('movie_lists/show-lists.html.twig', [
+        return $this->render('movie_lists/show-all-lists.html.twig', [
             'lists' => $user_lists
         ]);
     }
@@ -52,9 +52,7 @@ class MovieListController extends AbstractController
             $manager->persist($movie_list);
             $manager->flush();
 
-            return $this->render('movie_lists/create-movie-list.html.twig', [
-                'form' => $form->createView()
-            ]);
+            return $this->redirectToRoute('showmylists');
         }
 
         return $this->render('movie_lists/create-movie-list.html.twig', [
